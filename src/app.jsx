@@ -8,17 +8,7 @@ export function App () {
   const [catImage, setCatImage] = useState('')
 
   useEffect(() => {
-    fetch(CAT_FATCS_URL)
-      .then((response) => {
-        if (!response.ok) throw new Error('There was an error with the response')
-
-        return response.json()
-      })
-      .then(({ fact }) => {
-        setCatFact(fact)
-        const extractedWord = getFirstWord({ sentence: fact })
-        setFirstWord(extractedWord)
-      })
+    getCatFact()
   }, [])
 
   useEffect(() => {
@@ -39,12 +29,30 @@ export function App () {
     return sentence.split(' ')[0]
   }
 
+  const getCatFact = () => {
+    fetch(CAT_FATCS_URL)
+      .then((response) => {
+        if (!response.ok) throw new Error('There was an error with the response')
+
+        return response.json()
+      })
+      .then(({ fact }) => {
+        setCatFact(fact)
+        const extractedWord = getFirstWord({ sentence: fact })
+        setFirstWord(extractedWord)
+      })
+  }
+
+  const handleOnClick = () => {
+    getCatFact()
+  }
+
   return (
     <main>
       <h1>This is the App Cat</h1>
       {catFact && <p>{catFact}</p>}
-      {firstWord && <p>{firstWord}</p>}
       {catImage && <img src={catImage} alt={`This is an image obtained for the API ${BASE_CAT_URL}`} />}
+      <button onClick={handleOnClick}>Refresh</button>
     </main>
   )
 }
