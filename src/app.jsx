@@ -26,7 +26,8 @@ export function App () {
   }, [firstWord])
 
   const getFirstWord = ({ sentence }) => {
-    return sentence.split(' ')[0]
+    // return sentence.split(' ')[0]
+    return sentence.split(' ').slice(0, 3).join(' ')
   }
 
   const getCatFact = () => {
